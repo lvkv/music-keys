@@ -6,6 +6,7 @@
 	<title>Music Keys</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
 	<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+	<script src="save.js"> </script>
 </head>
 <body>
 <section class="keymapping">
@@ -24,11 +25,11 @@
 					<div class="container">
 						<span class="tag is-info is-large"> W </span>
 						<div class="select">
-							<select>
-								<option>A (440 Hz)</option>
-								<option>B</option>
-								<option>C</option>
-								<option>D</option>
+							<select id="input-w">
+								<option value="A">A (440 Hz)</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
 							</select>
 						</div>
 					</div>
@@ -36,11 +37,11 @@
 					<div class="container">
 						<span class="tag is-info is-large"> A </span>
 						<div class="select">
-							<select>
-								<option>A (440 Hz)</option>
-								<option>B</option>
-								<option>C</option>
-								<option>D</option>
+							<select id="input-a">
+								<option value="A">A (440 Hz)</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
 							</select>
 						</div>
 					</div>
@@ -48,11 +49,11 @@
 					<div class="container">
 						<span class="tag is-info is-large"> S </span>
 						<div class="select">
-							<select>
-								<option>A (440 Hz)</option>
-								<option>B</option>
-								<option>C</option>
-								<option>D</option>
+							<select id="input-s">
+								<option value="A">A (440 Hz)</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
 							</select>
 						</div>
 					</div>
@@ -60,11 +61,11 @@
 					<div class="container">
 						<span class="tag is-info is-large"> D </span>
 						<div class="select">
-							<select>
-								<option>A (440 Hz)</option>
-								<option>B</option>
-								<option>C</option>
-								<option>D</option>
+							<select id="input-d">
+								<option value="A">A (440 Hz)</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
 							</select>
 						</div>
 					</div>
@@ -72,11 +73,11 @@
 					<div class="container">
 						<span class="tag is-info is-large"> Space </span>
 						<div class="select">
-							<select>
-								<option>A (440 Hz)</option>
-								<option>B</option>
-								<option>C</option>
-								<option>D</option>
+							<select id="input-space">
+								<option value="A">A (440 Hz)</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
 							</select>
 						</div>
 					</div>
@@ -85,14 +86,16 @@
 				</div>
 			</div>
 		</div>
+		<button onclick="saveSettings()"> Save </button>
+	<div id="testOutput"> </div>
 	</div>
 </section>
 <script src = "note.js"></script>
-<script src = "app.js"></script>
+    <script src = "app.js"></script>
 <script src = "keypress.js"></script>
-<script>
-	// You can also require other files to run in this process
-	require('./renderer.js')
-</script>
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
 </body>
 </html>
