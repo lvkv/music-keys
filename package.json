@@ -10,5 +10,8 @@
   "author": "Lukas, Jihu, Ricky, Lincoln",
   "devDependencies": {
     "electron": "^2.0.0"
+  },
+  "dependencies": {
+    "bulma": "^0.7.1"
   }
 }
