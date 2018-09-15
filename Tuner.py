@@ -1,13 +1,17 @@
 import numpy as np
 import pyaudio
 import audioop
-import pyautogui as pyag
+import win32api
+import win32con
+import time
+import const
 
 NOTE_MIN = 48  # Lowest note (C3)
 NOTE_MAX = 84  # Highest note (C6)
 FSAMP = 22050  # Sampling frequency in Hz
 FRAME_SIZE = 1024  # How many samples per frame?
 FRAMES_PER_FFT = 2  # FFT (Fast fourier transform) takes average across how many frames?
+VK_CODE = const.VK_CODE
 
 SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
 FREQ_STEP = float(FSAMP) / SAMPLES_PER_FFT
@@ -78,4 +82,6 @@ def run(mappings):
 
 
 def press_key(key):
-    pyag.keyDown(key)
+    win32api.keybd_event(VK_CODE[key], 0, 0, 0)
+    time.sleep(.05)
+    win32api.keybd_event(VK_CODE[key], 0, win32con.KEYEVENTF_KEYUP, 0)

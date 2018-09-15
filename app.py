@@ -65,7 +65,7 @@ class MusicKeys:
             str(Note('B', 4)): 'a',
             str(Note('C', 5)): 's',
             str(Note('D', 5)): 'd',
-            str(Note('D', 4)): ' '
+            str(Note('D', 4)): 'spacebar'
         }
         return mappings
 
