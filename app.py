@@ -14,6 +14,8 @@ class MusicKeys:
         self.row_counter = 0
         self.mappings = self.get_map_dict()
         self.note_list = self.get_note_list()
+        self.mapping_row = 0
+        self.variables = []
 
         # container
         self.master_frame = Frame(master)
@@ -31,11 +33,13 @@ class MusicKeys:
 
         # show key maps
         for key in self.mappings:
-            key_row = self.calc_row()
+            key_row = self.mapping_row
             Label(self.body, text=self.mappings[key]).grid(row=key_row, column=0)
             variable = StringVar(self.master_frame)
             variable.set(key)
             OptionMenu(self.body, variable, *self.note_list).grid(row=key_row, column=1)
+            self.variables.append(variable)
+            self.mapping_row += 1
 
         # button to open dialog for adding new key
         self.add_button = Button(self.extra, text="Add Key", command=self.open_add_dialog)
@@ -43,7 +47,7 @@ class MusicKeys:
 
         # button to apply changes to key maps
         buttons_row = self.calc_row()
-        self.save_button = Button(self.buttons, text="Save")
+        self.save_button = Button(self.buttons, text="Save", command=self.apply_changes)
         self.save_button.grid(column=0, row=buttons_row, padx=(5, 5), pady=(2, 2))
 
         # button to start listening
@@ -83,30 +87,46 @@ class MusicKeys:
 
     def open_add_dialog(self):
         self.master.update()
-        key_add_dialog = AddDialog(self.master, self.mappings)
+        input_dict = { }
+        key_add_dialog = AddDialog(self.master, self.note_list, input_dict)
         self.master.wait_window(key_add_dialog.top)
+        for key in input_dict:
+            self.mappings[input_dict[key]] = key
+        self.update_mappings(input_dict[key])
 
+    def update_mappings(self, key):
+        Label(self.body, text=self.mappings[key]).grid(row=self.mapping_row, column=0)
+        variable = StringVar(self.master_frame)
+        variable.set(key)
+        OptionMenu(self.body, variable, *self.note_list).grid(row=self.mapping_row, column=1)
+        self.mapping_row += 1
+        self.variables.append(variable)
+        self.master.update()
+        return
+
+    def apply_changes(self):
+        for i in range(self.mapping_row):
+            self.mappings[self.variables[i].get()] = self.body.grid_slaves(i, 0)[0].cget("text")
 
 class AddDialog:
-    def __init__(self, parent, note_list):
+    def __init__(self, parent, note_list, input_dict):
+        self.input_dict=input_dict
         top = self.top = Toplevel(parent)
         Label(top, text="Add Keys").grid()
 
         self.key = Entry(top)
         self.key.grid(row=0, column=0)
 
-        variable = StringVar(parent)
-        variable.set(note_list[0])
-        OptionMenu(parent, variable, *note_list).grid(row=0, column=1)
+        self.variable = StringVar(top)
+        self.variable.set(note_list[0])
+        OptionMenu(top, self.variable, *note_list).grid(row=0, column=1)
 
         b = Button(top, text="OK", command=self.ok)
         b.grid(row=1)
 
     def ok(self):
-        print("value is", self.key.get())
-
+        self.input_dict[self.key.get()] = self.variable.get()
         self.top.destroy()
-
 
 root = Tk()
 sr = MusicKeys(root)
