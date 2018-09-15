@@ -1,9 +1,7 @@
-import threading
 from tkinter import *  # Python 3.x
 from Note import *
 from Tuner import *
-import time
-
+import _thread
 
 class MusicKeys:
     def __init__(self, master):
@@ -52,10 +50,8 @@ class MusicKeys:
         return mappings
 
     def run_listener(self, event):
-        q = queue.Queue()
+        _thread.start_new_thread(run, (self.mappings,))
 
-        q.put(run(self.mappings))
-            
     def get_note_list(self):
         ans = []
         notes = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -64,22 +60,6 @@ class MusicKeys:
             for note in notes:
                 ans.append(note + str(octave))
         return ans
-
-    def process_queue(self):
-        try:
-            msg = self.queue.get(0)
-        except queue.Empty:
-            self.master.after(100, self.process_queue)
-
-
-class ThreadedTask(threading.Thread):
-    def __init__(self, queue):
-        threading.Thread.__init__(self)
-        self.queue = queue
-
-    def run(self):
-        time.sleep(5)  # Simulate long running process
-        self.queue.put("Task finished")
 
 
 root = Tk()
