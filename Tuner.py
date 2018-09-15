@@ -1,5 +1,6 @@
 import numpy as np
 import pyaudio
+import audioop
 
 NOTE_MIN = 48  # Lowest note (C3)
 NOTE_MAX = 84  # Highest note (C6)
@@ -9,6 +10,7 @@ FRAMES_PER_FFT = 16  # FFT (Fast fourier transform) takes average across how man
 
 SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
 FREQ_STEP = float(FSAMP) / SAMPLES_PER_FFT
+volume_threshold = 30  # Minimum volume to register input
 
 NOTE_NAMES = 'C C D D E F F G G A A B'.split()
 
@@ -44,7 +46,12 @@ stream = pyaudio.PyAudio().open(format=pyaudio.paInt16,
 
 window = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
 
-while stream.is_active():
+while True:
+    # Calculate volume
+    rms = audioop.rms(stream.read(FRAME_SIZE), 2) // 100
+
+    if rms < volume_threshold:
+        continue
 
     # Shift the buffer down and new data in
     buf[:-FRAME_SIZE] = buf[FRAME_SIZE:]
@@ -63,4 +70,4 @@ while stream.is_active():
     num_frames += 1
 
     if num_frames >= FRAMES_PER_FFT:
-        print('note: {:>3s}'.format(NOTE_NAMES[n % 12] + str(n // 12 - 1)))
+        print('volume: {:3d} note: {:>3s}'.format(rms, NOTE_NAMES[n % 12] + str(n // 12 - 1)))
