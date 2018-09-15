@@ -32,6 +32,10 @@ def note_to_fftbin(n): return number_to_freq(n) / FREQ_STEP
 window = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
 
 
+def set_threshold(new_threshold):
+    volume_threshold = new_threshold
+    print('The new volume threshold is',volume_threshold,' db')
+
 def run(mappings):
     imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN - 1))))
     imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX + 1))))
@@ -77,7 +81,6 @@ def run(mappings):
 
             if note_name in mappings:
                 press_key(mappings[note_name])
-
                 # print('volume: {:3d} note: {:>3s}'.format(rms, NOTE_NAMES[n % 12] + str(n // 12 - 1)))
 
 

@@ -17,7 +17,7 @@ class MusicKeys:
         self.mapping_row = 0
         self.variables = []
 
-        # container
+        # containers
         self.master_frame = Frame(master)
         self.master_frame.grid(columnspan=1)
         heading = Label(self.master_frame, text='Music Keys', font='Helvetica 18 bold')
@@ -28,8 +28,12 @@ class MusicKeys:
         self.body.grid(columnspan=2, row=self.calc_row())
         self.extra = LabelFrame(self.master_frame, text="New Maps")
         self.extra.grid(columnspan=2, row=self.calc_row(), pady=(10, 5))
+        self.threshbox = LabelFrame(self.master_frame, text="Threshold")
+        self.threshbox.grid(columnspan=2, row=self.calc_row(), pady=(5,5))
         self.buttons = LabelFrame(self.master_frame, text="Save and Run")
         self.buttons.grid(columnspan=2, row=self.calc_row(), pady=(5, 10))
+
+
 
         # show key maps
         for key in self.mappings:
@@ -43,7 +47,10 @@ class MusicKeys:
 
         # button to open dialog for adding new key
         self.add_button = Button(self.extra, text="Add Key", command=self.open_add_dialog)
-        self.add_button.grid(row=self.calc_row(), column=1, padx=(5, 1), pady=(2, 2))
+        self.add_button.grid(row=self.calc_row(), column=1, padx=(5, 0), pady=(2, 2))
+        self.slider = Scale(self.threshbox, from_=10, to=60, orient=HORIZONTAL)
+        self.slider.grid(row=self.calc_row(), columnspan=2)
+        self.slider.set(30)
 
         # button to apply changes to key maps
         buttons_row = self.calc_row()
@@ -105,6 +112,7 @@ class MusicKeys:
         return
 
     def apply_changes(self):
+        set_threshold(self.slider.get())
         for i in range(self.mapping_row):
             self.mappings[self.variables[i].get()] = self.body.grid_slaves(i, 0)[0].cget("text")
 
