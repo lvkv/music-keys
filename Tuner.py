@@ -22,6 +22,12 @@ def number_to_freq(n): return 440 * 2.0 ** ((n - 69) / 12.0)
 def note_to_fftbin(n): return number_to_freq(n) / FREQ_STEP
 
 
+def start(): stream.start_stream()
+
+
+def stop(): stream.stop_stream()
+
+
 imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN - 1))))
 imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX + 1))))
 
@@ -35,8 +41,6 @@ stream = pyaudio.PyAudio().open(format=pyaudio.paInt16,
                                 rate=FSAMP,
                                 input=True,
                                 frames_per_buffer=FRAME_SIZE)
-
-stream.start_stream()
 
 window = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
 
@@ -59,4 +63,4 @@ while stream.is_active():
     num_frames += 1
 
     if num_frames >= FRAMES_PER_FFT:
-        print('note: {:>3s}'.format(NOTE_NAMES[n % 12]))
+        print('note: {:>3s}'.format(NOTE_NAMES[n % 12] + str(n // 12 - 1)))
