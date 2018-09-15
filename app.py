@@ -1,14 +1,15 @@
 from tkinter import *  # Python 3.x
 from Note import *
+from Tuner import *
+
 
 class MusicKeys:
-
     def __init__(self, master):
         self.master = master
         master.title('Simple Script')
         master.resizable(0, 0)
-        self.row_counter=0
-        self.keys=self.get_dict();
+        self.row_counter = 0
+        self.keys = self.get_dict()
 
         self.master_frame = Frame(master)
         self.master_frame.grid(columnspan=1)
@@ -19,7 +20,6 @@ class MusicKeys:
         self.body = LabelFrame(master, text="Key Mappings")
         self.body.grid(columnspan=2, sticky=W, row=self.calc_row())
 
-        
         for key in self.keys:
             Label(master, text=key).grid(row=self.calc_row())
 
@@ -31,10 +31,10 @@ class MusicKeys:
         self.run_button.grid(column=1, row=buttons_row)
 
     def calc_row(self):
-        self.row_counter+=1
+        self.row_counter += 1
         return self.row_counter - 1
 
-#    def gen_body(self, master):
+    #    def gen_body(self, master):
 
     def get_dict(self):
         mappings = {
@@ -45,6 +45,7 @@ class MusicKeys:
             " ": Note('D', 4)
         }
         return mappings
+
 
 root = Tk()
 sr = MusicKeys(root)
