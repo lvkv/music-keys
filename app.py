@@ -95,15 +95,21 @@ class MusicKeys:
         input_dict = {}
         key_add_dialog = AddDialog(self.master, self.note_list, input_dict)
         self.master.wait_window(key_add_dialog.top)
+        print(input_dict)
         try:
-            if input_dict[0] not in VK_CODE:
+            if len(input_dict) == 0 or list(input_dict.keys())[0] == '':
+                raise EmptyInputError
 
+            if list(input_dict.keys())[0] not in VK_CODE:
+                raise KeyError
 
             for key in input_dict:
                 self.mappings[input_dict[key]] = key
             self.update_mappings(input_dict[key])
-        except:
-            print('You did not change anything!')
+        except KeyError:
+            print('Invalid key')
+        except EmptyInputError:
+            print('You did not change anything')
 
     def update_mappings(self, key):
         Label(self.body, text=self.mappings[key]).grid(row=self.mapping_row, column=0)
@@ -140,6 +146,11 @@ class AddDialog:
     def ok(self):
         self.input_dict[self.key.get()] = self.variable.get()
         self.top.destroy()
+
+
+class EmptyInputError(Exception):
+    def __init__(self):
+        pass
 
 
 root = Tk()

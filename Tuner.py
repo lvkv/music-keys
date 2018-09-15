@@ -7,7 +7,7 @@ import time
 import const
 
 NOTE_MIN = 48  # Lowest note (C3)
-NOTE_MAX = 84  # Highest note (C6)
+NOTE_MAX = 95  # Highest note (B6)
 FSAMP = 22050  # Sampling frequency in Hz
 FRAME_SIZE = 1024  # How many samples per frame?
 FRAMES_PER_FFT = 2  # FFT (Fast fourier transform) takes average across how many frames?
@@ -17,13 +17,17 @@ SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
 FREQ_STEP = float(FSAMP) / SAMPLES_PER_FFT
 volume_threshold = 30  # Minimum volume to register input
 
+A4 = 440.0
+SEMITONE = 69
+NOTES_IN_OCTAVE = 12.0
+
 NOTE_NAMES = 'C C D D E F F G G A A B'.split()
 
 
-def freq_to_number(f): return 69 + 12 * np.log2(f / 440.0)
+def freq_to_number(f): return SEMITONE + NOTES_IN_OCTAVE * np.log2(f / A4)
 
 
-def number_to_freq(n): return 440 * 2.0 ** ((n - 69) / 12.0)
+def number_to_freq(n): return A4 * 2.0 ** ((n - SEMITONE) / NOTES_IN_OCTAVE)
 
 
 def note_to_fftbin(n): return number_to_freq(n) / FREQ_STEP
@@ -77,7 +81,7 @@ def run(mappings):
         num_frames += 1
 
         if num_frames >= FRAMES_PER_FFT:
-            note_name = NOTE_NAMES[n % 12] + str(n // 12 - 1)
+            note_name = NOTE_NAMES[n % int(NOTES_IN_OCTAVE)] + str(n // int(NOTES_IN_OCTAVE) - 1)
 
             if note_name in mappings:
                 press_key(mappings[note_name])
