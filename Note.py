@@ -7,4 +7,4 @@ class Note:
         return self.note == other.note and self.octave == other.octave
 
     def __str__(self):
-        return self.note + self.octave
+        return str(self.note) + str(self.octave)
