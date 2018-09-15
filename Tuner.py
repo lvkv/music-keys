@@ -7,7 +7,7 @@ NOTE_MIN = 48  # Lowest note (C3)
 NOTE_MAX = 84  # Highest note (C6)
 FSAMP = 22050  # Sampling frequency in Hz
 FRAME_SIZE = 1024  # How many samples per frame?
-FRAMES_PER_FFT = 16  # FFT (Fast fourier transform) takes average across how many frames?
+FRAMES_PER_FFT = 2  # FFT (Fast fourier transform) takes average across how many frames?
 
 SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
 FREQ_STEP = float(FSAMP) / SAMPLES_PER_FFT
@@ -74,7 +74,7 @@ def run(mappings):
             if note_name in mappings:
                 press_key(mappings[note_name])
 
-            # print('volume: {:3d} note: {:>3s}'.format(rms, NOTE_NAMES[n % 12] + str(n // 12 - 1)))
+                # print('volume: {:3d} note: {:>3s}'.format(rms, NOTE_NAMES[n % 12] + str(n // 12 - 1)))
 
 
 def press_key(key):
