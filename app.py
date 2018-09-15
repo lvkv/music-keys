@@ -1,6 +1,6 @@
 from tkinter import *  # Python 3.x
 import _thread
-from Note import *
+from const import VK_CODE
 from Tuner import *
 
 
@@ -29,11 +29,9 @@ class MusicKeys:
         self.extra = LabelFrame(self.master_frame, text="New Maps")
         self.extra.grid(columnspan=2, row=self.calc_row(), pady=(10, 5))
         self.threshbox = LabelFrame(self.master_frame, text="Threshold")
-        self.threshbox.grid(columnspan=2, row=self.calc_row(), pady=(5,5))
+        self.threshbox.grid(columnspan=2, row=self.calc_row(), pady=(5, 5))
         self.buttons = LabelFrame(self.master_frame, text="Save and Run")
         self.buttons.grid(columnspan=2, row=self.calc_row(), pady=(5, 10))
-
-
 
         # show key maps
         for key in self.mappings:
@@ -72,11 +70,11 @@ class MusicKeys:
 
     def get_map_dict(self):
         mappings = {
-            str(Note('A', 4)): 'w',
-            str(Note('B', 4)): 'a',
-            str(Note('C', 5)): 's',
-            str(Note('D', 5)): 'd',
-            str(Note('D', 4)): 'spacebar'
+            # str(Note('A', 4)): 'w',
+            # str(Note('B', 4)): 'a',
+            # str(Note('C', 5)): 's',
+            # str(Note('D', 5)): 'd',
+            # str(Note('D', 4)): 'spacebar'
         }
         return mappings
 
@@ -94,12 +92,18 @@ class MusicKeys:
 
     def open_add_dialog(self):
         self.master.update()
-        input_dict = { }
+        input_dict = {}
         key_add_dialog = AddDialog(self.master, self.note_list, input_dict)
         self.master.wait_window(key_add_dialog.top)
-        for key in input_dict:
-            self.mappings[input_dict[key]] = key
-        self.update_mappings(input_dict[key])
+        try:
+            if input_dict[0] not in VK_CODE:
+
+
+            for key in input_dict:
+                self.mappings[input_dict[key]] = key
+            self.update_mappings(input_dict[key])
+        except:
+            print('You did not change anything!')
 
     def update_mappings(self, key):
         Label(self.body, text=self.mappings[key]).grid(row=self.mapping_row, column=0)
@@ -116,9 +120,10 @@ class MusicKeys:
         for i in range(self.mapping_row):
             self.mappings[self.variables[i].get()] = self.body.grid_slaves(i, 0)[0].cget("text")
 
+
 class AddDialog:
     def __init__(self, parent, note_list, input_dict):
-        self.input_dict=input_dict
+        self.input_dict = input_dict
         top = self.top = Toplevel(parent)
         Label(top, text="Add Keys").grid()
 
@@ -135,6 +140,7 @@ class AddDialog:
     def ok(self):
         self.input_dict[self.key.get()] = self.variable.get()
         self.top.destroy()
+
 
 root = Tk()
 sr = MusicKeys(root)

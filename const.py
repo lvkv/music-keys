@@ -144,3 +144,4 @@ VK_CODE = {'backspace': 0x08,
            ']': 0xDD,
            "'": 0xDE,
            }
+
