@@ -3,6 +3,7 @@ from Note import *
 from Tuner import *
 import _thread
 
+
 class MusicKeys:
     def __init__(self, master):
         self.notes = self.get_note_list()
