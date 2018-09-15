@@ -1,6 +1,8 @@
+import threading
 from tkinter import *  # Python 3.x
 from Note import *
 from Tuner import *
+import time
 
 
 class MusicKeys:
@@ -9,8 +11,8 @@ class MusicKeys:
         self.master = master
         master.title('Simple Script')
         master.resizable(0, 0)
-        self.row_counter=0
-        self.mappings=self.get_map_dict()
+        self.row_counter = 0
+        self.mappings = self.get_map_dict()
         self.master_frame = Frame(master)
         self.master_frame.grid(columnspan=1)
 
@@ -19,7 +21,7 @@ class MusicKeys:
 
         self.body = LabelFrame(master, text="Key Mappings")
         self.body.grid(columnspan=2, sticky=W, row=self.calc_row())
-        
+
         for key in self.mappings:
             Label(master, text=key).grid(row=self.calc_row(), columnspan=1)
 
@@ -41,17 +43,19 @@ class MusicKeys:
 
     def get_map_dict(self):
         mappings = {
-            'w': Note('A', 4),
-            'a': Note('B', 4),
-            's': Note('C', 5),
-            'd': Note('D', 5),
-            " ": Note('D', 4)
+            str(Note('A', 4)): 'w',
+            str(Note('B', 4)): 'a',
+            str(Note('C', 5)): 's',
+            str(Note('D', 5)): 'd',
+            str(Note('D', 4)): ' '
         }
         return mappings
 
-    def run_listener(self):
-        print('yolo')
+    def run_listener(self, event):
+        q = queue.Queue()
 
+        q.put(run(self.mappings))
+            
     def get_note_list(self):
         ans = []
         notes = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -60,6 +64,23 @@ class MusicKeys:
             for note in notes:
                 ans.append(note + str(octave))
         return ans
+
+    def process_queue(self):
+        try:
+            msg = self.queue.get(0)
+        except queue.Empty:
+            self.master.after(100, self.process_queue)
+
+
+class ThreadedTask(threading.Thread):
+    def __init__(self, queue):
+        threading.Thread.__init__(self)
+        self.queue = queue
+
+    def run(self):
+        time.sleep(5)  # Simulate long running process
+        self.queue.put("Task finished")
+
 
 root = Tk()
 sr = MusicKeys(root)
