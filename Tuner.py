@@ -2,7 +2,6 @@ import numpy as np
 import pyaudio
 import audioop
 import pyautogui as pyag
-import queue
 
 NOTE_MIN = 48  # Lowest note (C3)
 NOTE_MAX = 84  # Highest note (C6)
@@ -30,8 +29,6 @@ window = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
 
 
 def run(mappings):
-
-
     imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN - 1))))
     imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX + 1))))
 

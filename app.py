@@ -5,47 +5,58 @@ from Tuner import *
 
 class MusicKeys:
     def __init__(self, master):
+
         #initialize local vars
         self.notes = self.get_note_list()
         self.master = master
-        master.title('Simple Script')
+        master.title('Music Keys')
         master.resizable(0, 0)
-        self.row_counter=0
+        self.row_counter = 0
         self.mappings=self.get_map_dict()
         self.note_list=self.get_note_list()
 
-        #container
+        # container
         self.master_frame = Frame(master)
         self.master_frame.grid(columnspan=1)
+        heading = Label(self.master_frame, text='Music Keys', font='Helvetica 18 bold')
+        heading.grid(columnspan=2, row=self.calc_row(), padx=(50, 50), pady=(5,10))
 
-        #Title
-        self.title_label = Label(master, text="Music Keys")
-        self.title_label.grid(row=self.calc_row())
+        # Title
+        # self.title_label = Label(master, text="Music Keys")
+        # self.title_label.grid(row=self.calc_row())
 
-        #container for Key Maps
-        self.body = LabelFrame(master, text="Key Mappings")
+        # containers
+        self.body = LabelFrame(self.master_frame, text="Key Mappings")
         self.body.grid(columnspan=2, row=self.calc_row())
+        self.extra = LabelFrame(self.master_frame, text="New Maps")
+        self.extra.grid(columnspan=2, row=self.calc_row(), pady=(10,5))
+        self.buttons = LabelFrame(self.master_frame, text="Save and Run")
+        self.buttons.grid(columnspan=2, row=self.calc_row(), pady=(5, 10))
         
-        #show key maps
+        # show key maps
         for key in self.mappings:
             key_row = self.calc_row()
-            Label(master, text=key).grid(row=key_row, column=0)
-            variable = StringVar(master)
+            if key == " ":
+                key = "Space"
+            Label(self.body, text=key).grid(row=key_row, column=0)
+            variable = StringVar(self.master_frame)
+            if key == "Space":
+                key = " "
             variable.set(self.mappings[key])
-            OptionMenu(master, variable, *self.note_list).grid(row=key_row, column=1)
-
+            OptionMenu(self.body, variable, *self.note_list).grid(row=key_row, column=1)
+        print(self.mappings)
         #button to open dialog for adding new key
-        self.add_button = Button(master, text="Add Key", command=self.open_add_dialog)
-        self.add_button.grid(row=self.calc_row())
+        self.add_button = Button(self.extra, text="Add Key", command=self.open_add_dialog)
+        self.add_button.grid(row=self.calc_row(), column=1, padx=(5,1), pady=(2,2))
                                                          
-        #button to apply changes to key maps             
+        #button to apply changes to key maps
         buttons_row = self.calc_row()
-        self.save_button = Button(master, text="Save")
-        self.save_button.grid(column=0, row=buttons_row)
+        self.save_button = Button(self.buttons, text="Save")
+        self.save_button.grid(column=0, row=buttons_row, padx=(5,5), pady=(2,2))
 
         #button to start listening
-        self.run_button = Button(master, text="Run")
-        self.run_button.grid(column=1, row=buttons_row)
+        self.run_button = Button(self.buttons, text="Run")
+        self.run_button.grid(column=1, row=buttons_row, padx=(5,5), pady=(2,2))
 
         # Binding buttons to functions
         self.run_button.bind('<Button-1>', self.run_listener)
