@@ -1,8 +1,9 @@
 from tkinter import *  # Python 3.x
 from Note import *
+from Tuner import *
+
 
 class MusicKeys:
-
     def __init__(self, master):
         self.notes = self.get_note_list()
         self.master = master
@@ -10,7 +11,6 @@ class MusicKeys:
         master.resizable(0, 0)
         self.row_counter=0
         self.mappings=self.get_map_dict()
-
         self.master_frame = Frame(master)
         self.master_frame.grid(columnspan=1)
 
@@ -34,10 +34,10 @@ class MusicKeys:
         self.run_button.bind('<Button-1>', self.run_listener)
 
     def calc_row(self):
-        self.row_counter+=1
+        self.row_counter += 1
         return self.row_counter - 1
 
-#    def gen_body(self, master):
+    #    def gen_body(self, master):
 
     def get_map_dict(self):
         mappings = {
@@ -60,9 +60,6 @@ class MusicKeys:
             for note in notes:
                 ans.append(note + str(octave))
         return ans
-
-
-
 
 root = Tk()
 sr = MusicKeys(root)
