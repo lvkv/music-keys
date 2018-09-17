@@ -1,45 +1,21 @@
-# Music Keys
+# Music Keys - SBUHacks 2018
 
-**Map music notes to keystrokes**
+**Map microphone pitch to keystrokes**
 
-This is a Python application based on the that uses PyAudio and tkinter to listen for music notes and set key
+## Inspiration
+We've always had fun watching daredevils beat Dark Souls with Guitar Hero controllers and dance pads, but we've never seen anyone beat a video game with a _violin_. Well, wait no longer.
 
-**Use this app along with the [Electron API Demos](https://electronjs.org/#get-started) app for API code examples to help you get started.**
+## How we built it
+Our application uses your laptop microphone (via PyAudio) to continually listen for trigger frequencies within a certain volume threshold, which map to music notes ranging from C3 to B6. Our GUI front end (built with TkInter) listens for trigger notes, which are mapped (by the user) to specific keys. Our keystroke API (win32) then maps keys to keycodes and sends the actual keypress to the operating system, which then plays QWOP (or your choice of easy video game) in the most evil way possible.
+## Challenges we ran into
+We originally built the application on top of Electron and Node.js, but microphone permissions proved difficult, and we had to (we aren't kidding) modify actual node modules to get them to function on our machines (cough, _node-key-sender_). Not ideal. We then nuked our repo at midnight and basked in the glorious light of Python.
+## Accomplishments that we're proud of
+* UI Design
+* Multithreading
+* Extracting pitch and volume from mic input
 
-A basic Electron application needs just these files:
+## What we learned
+We realized that different frameworks and languages offer different advantages over other depending on the purpose of the program. Sometimes it's just better to go back to the drawing board if means saving hours of headaches later!
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
-
-You can learn more about each of these components within the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start).
-
-## To Use
-
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
-```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
-```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [electronjs.org/community#boilerplates](https://electronjs.org/community#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
-
-## License
-
-[CC0 1.0 (Public Domain)](LICENSE.md)
+## What's next for Music Keys
+Dark Souls.

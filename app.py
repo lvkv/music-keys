@@ -2,6 +2,7 @@ from tkinter import *  # Python 3.x
 import _thread
 from const import VK_CODE
 from Tuner import *
+from Note import *
 
 
 class MusicKeys:
@@ -70,17 +71,20 @@ class MusicKeys:
 
     def get_map_dict(self):
         mappings = {
-            # str(Note('A', 4)): 'w',
-            # str(Note('B', 4)): 'a',
-            # str(Note('C', 5)): 's',
-            # str(Note('D', 5)): 'd',
-            # str(Note('D', 4)): 'spacebar'
+            str(Note('A', 4)): 'w',
+            str(Note('B', 4)): 'a',
+            str(Note('C', 5)): 's',
+            str(Note('D', 5)): 'd',
+            str(Note('D', 4)): 'k',
+            str(Note('E', 4)): 'l',
+            str(Note('G', 5)): 'spacebar'
+
         }
         return mappings
 
     def get_note_list(self):
         ans = []
-        notes = ['A', 'B', 'C', 'D', 'E', 'F']
+        notes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         octaves = [3, 4, 5, 6]
         for octave in octaves:
             for note in notes:
