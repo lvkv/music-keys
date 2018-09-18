@@ -1,3 +1,4 @@
+# A music note, comprised of the note value (A B C D E F G) and note octave (3 4 5 6)
 class Note:
     def __init__(self, note, octave):
         self.note = note

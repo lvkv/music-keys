@@ -1,6 +1,5 @@
 from tkinter import *  # Python 3.x
 import _thread
-from const import VK_CODE
 from Tuner import *
 from Note import *
 
@@ -57,20 +56,18 @@ class MusicKeys:
         self.save_button.grid(column=0, row=buttons_row, padx=(5, 5), pady=(2, 2))
 
         # button to start listening
-        self.run_button = Button(self.buttons, text="Run")
+        self.run_button = Button(self.buttons, text="Run", command=self.run_listener)
         self.run_button.grid(column=1, row=buttons_row, padx=(5, 5), pady=(2, 2))
 
-        # Binding buttons to functions
-        self.run_button.bind('<Button-1>', self.run_listener)
-
+    # Figure out what row to grid elements
     def calc_row(self):
         self.row_counter += 1
         return self.row_counter - 1
 
-    #    def gen_body(self, master):
-
+    # Return the default mappings
     def get_map_dict(self):
         mappings = {
+            # Default mappings
             str(Note('A', 4)): 'w',
             str(Note('B', 4)): 'a',
             str(Note('C', 5)): 's',
@@ -78,7 +75,6 @@ class MusicKeys:
             str(Note('D', 4)): 'k',
             str(Note('E', 4)): 'l',
             str(Note('G', 5)): 'spacebar'
-
         }
         return mappings
 
@@ -91,7 +87,7 @@ class MusicKeys:
                 ans.append(note + str(octave))
         return ans
 
-    def run_listener(self, event):
+    def run_listener(self):
         _thread.start_new_thread(run, (self.mappings,))
 
     def open_add_dialog(self):
